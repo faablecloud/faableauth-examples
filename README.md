@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  End-to-end web security
+  End-to-end Web Security. Authentication and authorization service for frontends and APIs.
 </p>
 
 # Faable Auth Examples
