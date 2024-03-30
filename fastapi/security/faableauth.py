@@ -1,32 +1,39 @@
 from typing import Annotated
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2AuthorizationCodeBearer
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from security.settings import FaableAuthSettings
+import jwt
+from security.jwks import get_jwks_key
 
-class Settings(BaseSettings):
-    faable_auth_domain: str
-    faable_auth_connection: str = None
-    model_config = SettingsConfigDict(env_file=".env")
-
-config = Settings()
-print(config)
-
-# FAABLE_AUTH_DOMAIN = os.getenv('FAABLE_AUTH_DOMAIN')
-# if not FAABLE_AUTH_DOMAIN:
-#     raise ValueError(f"Missing FAABLE_AUTH_DOMAIN env var")
+config = FaableAuthSettings()
 
 faableauth_scheme = OAuth2AuthorizationCodeBearer(
-    authorizationUrl=f"https://{config.faable_auth_domain}/authorize?connection={config.faable_auth_connection}",
-    refreshUrl=f"https://{config.faable_auth_domain}/oauth/token",
-    tokenUrl=f"https://{config.faable_auth_domain}/oauth/token",
+    authorizationUrl=config.authorizationUrl,
+    refreshUrl=config.tokenUrl,
+    tokenUrl=config.tokenUrl,
     scheme_name="faable:auth",
     scopes=[],
     description="FaableAuth"
 )
 
+def decode_and_validate_token(token):
+    unvalidated = jwt.decode(token, options={"verify_signature": False})
+    header = jwt.get_unverified_header(token)
+    if not "iss" in unvalidated:
+        raise HTTPException(status_code=400, detail="Missing iss in JWT")
+    if not "kid" in header:
+        raise HTTPException(status_code=400, detail="Missing kid in JWT")
+
+    # Invalid issuer for this FaableAuth configuration
+    if config.url != unvalidated['iss']:
+        raise HTTPException(status_code=400, detail="Invalid issuer")
+
+    key = get_jwks_key(config.wellKnownUrl,header["kid"])
+    return jwt.decode(token, key, [header["alg"]],audience=config.audience)
+
+
 async def verify_access(token: Annotated[str, Depends(faableauth_scheme)]):
-    print(token)
-    
-    payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    if x_token != "fake-super-secret-token":
-        raise HTTPException(status_code=400, detail="X-Token header invalid")
+    decoded = decode_and_validate_token(token)
+    subject = decoded["sub"]
+    return subject
+

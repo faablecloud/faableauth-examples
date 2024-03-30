@@ -6,8 +6,11 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"app": "Faable Auth Fastapi Demo"}
+    return {"app": "FaableAuth demo"}
 
-@app.get("/protected", dependencies=[Depends(verify_access)])
-def protected( query: Union[str, None] = None):
-    return {"query": q}
+@app.get("/protected")
+def protected(query: str = "", user_id:str = Depends(verify_access)):
+    return {
+        "query": query,
+        "user_id": user_id
+    }
