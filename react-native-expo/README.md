@@ -28,8 +28,8 @@ Get the credentials in the Faable dashboard to configure the `faableauth` client
 
 ## Set up the enviroment variables
 
-> [!NOTE]
-> Remember to configure these essential variables:
-> - `EXPO_PUBLIC_FAABLEAUTH_URL`
-> - `EXPO_PUBLIC_FAABLEAUTH_CLIENT_ID`
-> - `EXPO_PUBLIC_FAABLEAUTH_SOCIAL_CONNECTION`
+
+Remember to add these essential variables:
+- `EXPO_PUBLIC_FAABLEAUTH_URL`
+- `EXPO_PUBLIC_FAABLEAUTH_CLIENT_ID`
+- `EXPO_PUBLIC_FAABLEAUTH_SOCIAL_CONNECTION`
