@@ -8,8 +8,7 @@ npm install
 
 ## Execute the project
 
-> [!NOTE]
-> Choose your development platform
+Choose your development platform
 
 ```bash
 npm run android
