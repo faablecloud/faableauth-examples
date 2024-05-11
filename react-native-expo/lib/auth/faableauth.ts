@@ -6,8 +6,8 @@ import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 
 // Constants
-WebBrowser.maybeCompleteAuthSession(); // Requerido solo para web
-const redirectTo = makeRedirectUri(); // URI de redirección
+WebBrowser.maybeCompleteAuthSession(); // Required only for web
+const redirectTo = makeRedirectUri(); // Redirection URI
 
 // Singleton configuration
 const faableauthUrl = process.env.EXPO_PUBLIC_FAABLEAUTH_URL || "";
