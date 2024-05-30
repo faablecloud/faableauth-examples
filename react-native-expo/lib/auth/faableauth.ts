@@ -1,6 +1,6 @@
 import "react-native-url-polyfill/auto";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createClient } from "@faablecloud/auth-js";
+import { createClient } from "@faable/auth-js";
 import { makeRedirectUri } from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
@@ -53,7 +53,10 @@ export const login = async () => {
 
     if (error) throw error;
 
-    const res = await WebBrowser.openAuthSessionAsync(data?.url ?? "", redirectTo);
+    const res = await WebBrowser.openAuthSessionAsync(
+      data?.url ?? "",
+      redirectTo
+    );
 
     if (res.type === "success") {
       const { url } = res;

@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View, Dimensions } from "react-native";
 import Animated from "react-native-reanimated";
 import { useAnimatedMount } from "./useAnimatedMount";
 import { login, logout } from "../../lib/auth/faableauth";
-import { useSession } from "@faablecloud/auth-helpers-react";
+import { useSession } from "@faable/auth-helpers-react";
 import { CustomText } from "../shared/CustomText";
 import { GoogleIcon } from "../svg/Google.icon";
 
@@ -21,10 +21,19 @@ export const LoginButton = () => {
       {!session && (
         <>
           <Animated.View style={[styles.logo_container, secondMountStyle]}>
-            {!session && <Image source={require("../../assets/faable-logo.png")} contentFit="cover" style={styles.logo} />}
+            {!session && (
+              <Image
+                source={require("../../assets/faable-logo.png")}
+                contentFit="cover"
+                style={styles.logo}
+              />
+            )}
           </Animated.View>
           <Animated.View style={[styles.container, mainMountStyle]}>
-            <TouchableOpacity onPress={() => login()} style={[styles.button, styles.login_button]}>
+            <TouchableOpacity
+              onPress={() => login()}
+              style={[styles.button, styles.login_button]}
+            >
               <View style={styles.icon_container}>
                 <GoogleIcon />
               </View>
@@ -38,16 +47,27 @@ export const LoginButton = () => {
       {session && (
         <>
           <Animated.View style={[styles.container, thirdMountStyle]}>
-            <Image source={session.user.picture} contentFit="cover" style={styles.profile_image} />
+            <Image
+              source={session.user.picture}
+              contentFit="cover"
+              style={styles.profile_image}
+            />
           </Animated.View>
           <Animated.View style={[styles.container, mainMountStyle]}>
-            <CustomText style={styles.text_user_name}>¡Hola {session.user.name?.split(" ")[0]}!</CustomText>
+            <CustomText style={styles.text_user_name}>
+              ¡Hola {session.user.name?.split(" ")[0]}!
+            </CustomText>
             <Animated.View style={thirdMountStyle}>
-              <CustomText style={styles.text_user_email}>{session.user.email}</CustomText>
+              <CustomText style={styles.text_user_email}>
+                {session.user.email}
+              </CustomText>
             </Animated.View>
           </Animated.View>
           <Animated.View style={[styles.container, fourthMountStyle]}>
-            <TouchableOpacity onPress={() => logout()} style={[styles.button, styles.logout_button]}>
+            <TouchableOpacity
+              onPress={() => logout()}
+              style={[styles.button, styles.logout_button]}
+            >
               <CustomText>Logout</CustomText>
             </TouchableOpacity>
           </Animated.View>

@@ -1,6 +1,11 @@
-import { useSessionContext } from "@faablecloud/auth-helpers-react";
+import { useSessionContext } from "@faable/auth-helpers-react";
 import { useEffect } from "react";
-import { useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 
 export const useAnimatedMount = (initialDelay = 300, duration = 300) => {
   const { session } = useSessionContext();

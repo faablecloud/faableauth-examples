@@ -1,4 +1,4 @@
-import { useSessionContext } from "@faablecloud/auth-helpers-react";
+import { useSessionContext } from "@faable/auth-helpers-react";
 import { Image } from "expo-image";
 import { View, ViewProps, StyleSheet } from "react-native";
 import { useAnimatedMount } from "./useAnimatedMount";
@@ -12,7 +12,13 @@ export const LoginLogo = () => {
 
   return (
     <Animated.View style={[styles.logo_container, mainMountStyle]}>
-      {!session && <Image source={require("../../assets/faable-logo.png")} contentFit="cover" style={styles.logo} />}
+      {!session && (
+        <Image
+          source={require("../../assets/faable-logo.png")}
+          contentFit="cover"
+          style={styles.logo}
+        />
+      )}
     </Animated.View>
   );
 };
