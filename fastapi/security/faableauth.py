@@ -17,19 +17,22 @@ faableauth_scheme = OAuth2AuthorizationCodeBearer(
 )
 
 def decode_and_validate_token(token):
-    unvalidated = jwt.decode(token, options={"verify_signature": False})
-    header = jwt.get_unverified_header(token)
-    if not "iss" in unvalidated:
-        raise HTTPException(status_code=400, detail="Missing iss in JWT")
-    if not "kid" in header:
-        raise HTTPException(status_code=400, detail="Missing kid in JWT")
+    try:
+        header = jwt.get_unverified_header(token)
+        if "kid" not in header:
+            raise HTTPException(status_code=401, detail="Missing kid in JWT")
 
-    # Invalid issuer for this FaableAuth configuration
-    if config.url != unvalidated['iss']:
-        raise HTTPException(status_code=400, detail="Invalid issuer")
-
-    key = get_jwks_key(config.wellKnownUrl,header["kid"])
-    return jwt.decode(token, key, [header["alg"]],audience=config.audience)
+        key = get_jwks_key(config.wellKnownUrl, header["kid"])
+        # The algorithm is fixed here: a token's header is controlled by its sender.
+        return jwt.decode(
+            token,
+            key,
+            algorithms=["RS256"],
+            audience=config.audience,
+            issuer=config.url,
+        )
+    except (jwt.InvalidTokenError, jwt.PyJWKClientError) as error:
+        raise HTTPException(status_code=401, detail="Invalid token") from error
 
 
 async def verify_access(token: Annotated[str, Depends(faableauth_scheme)]):

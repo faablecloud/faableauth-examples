@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
     
 class FaableAuthSettings(BaseSettings):
     faable_auth_domain: str
+    faable_auth_audience: str
     faable_auth_connection: str = ""
     model_config = SettingsConfigDict(env_file=".env")
 
@@ -26,5 +27,5 @@ class FaableAuthSettings(BaseSettings):
 
     @property
     def audience(self) ->str:
-        return "https://api.faable.com"
+        return self.faable_auth_audience
 
