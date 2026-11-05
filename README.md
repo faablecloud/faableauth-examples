@@ -33,8 +33,9 @@ JavaScript, React, Next.js, Vue, Nuxt, Angular, SvelteKit, FastAPI and React Nat
 
 ## Support
 
-- **Questions about Faable:** [support@faable.com](mailto:support@faable.com) or the
-  [support page](https://faable.com/docs/platform/support)
+- **Community help, on every plan:** [GitHub Discussions](https://github.com/orgs/faablecloud/discussions)
+- **Help from the Faable team, on the Hobby and Pro plans:** [support@faable.com](mailto:support@faable.com).
+  See the [support page](https://faable.com/docs/platform/support)
 - **Bugs in an example:** [open an issue](https://github.com/faablecloud/faableauth-examples/issues)
 - **Security issues:** report them privately to [support@faable.com](mailto:support@faable.com),
   not in a public issue
